@@ -6,14 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeForm {
 
 
     @BeforeAll
-    static void beforeAll() {
+    static void basicBrowserSettings() {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
@@ -23,6 +22,8 @@ public class PracticeForm {
     @Test
     void practiceFormTest() {
         open("/automation-practice-form");
+        executeJavaScript("$('footer').remove();");
+        executeJavaScript("$('#fixedban').remove();");
 
         //Name
         $("#firstName").setValue("Egor");
@@ -44,8 +45,10 @@ public class PracticeForm {
         $(".react-datepicker__day--023").click();
 
         //Subjects
-        $("#subjectsInput").setValue("Math").pressEnter();
-        $("#subjectsInput").setValue("Physics").pressEnter();
+        $("#subjectsInput").setValue("Math");
+        $$(".subjects-auto-complete__option").findBy(text("Maths")).click();
+        $("#subjectsInput").setValue("Physics");
+        $$(".subjects-auto-complete__option").findBy(text("Physics")).click();
 
         //Hobbies
         $("label[for='hobbies-checkbox-1']").click();
